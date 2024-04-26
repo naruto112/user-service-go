@@ -5,18 +5,13 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	db "user-service/src/config"
-	users "user-service/src/models"
-	"user-service/src/repository"
+	"user-service/src/adapter/dto"
+	"user-service/src/adapter/request/entity"
+	user_entity "user-service/src/core/domain/entity"
+	"user-service/src/core/services"
 
 	"github.com/gin-gonic/gin"
 )
-
-type UserRequest struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
 
 func main() {
 	r := gin.Default()
@@ -36,48 +31,49 @@ func createUser(c *gin.Context) {
 		return
 	}
 
-	var requestData UserRequest
+	var requestData entity.UserRequest
 	if err := json.Unmarshal(body, &requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	userRepository := repository.NewUserRepository(db.Mysqlconnection())
-	userRepository.CreateUser(&users.User{Name: requestData.Name, Email: requestData.Email})
+	userDTO := dto.NewUserDTO(&requestData)
+	userService := services.NewUserServices(userDTO)
+	userService.CreateUser(userDTO)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Request recebido com sucesso"})
+	c.JSON(http.StatusOK, gin.H{"message": "Request criado com sucesso"})
 }
 
 func getUser(c *gin.Context) {
 
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
-		// Handle the error
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	userRepository := repository.NewUserRepository(db.Mysqlconnection())
-	userResponse, err := userRepository.GetUser(uint(id))
+	userService := services.NewUserServices(nil)
+	user, err := userService.GetUser(uint(id))
 
 	if err != nil {
 		c.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, userResponse)
+	c.JSON(http.StatusOK, user)
 }
 
 func getUserAll(c *gin.Context) {
-	userRepository := repository.NewUserRepository(db.Mysqlconnection())
-	userResponse, err := userRepository.GetUserAll()
+
+	userService := services.NewUserServices(nil)
+	users, err := userService.GetUserAll()
 
 	if err != nil {
 		c.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, userResponse)
+	c.JSON(http.StatusOK, users)
 }
 
 func updateUser(c *gin.Context) {
@@ -89,14 +85,24 @@ func updateUser(c *gin.Context) {
 		return
 	}
 
-	var requestData UserRequest
+	var requestData entity.UserRequest
 	if err := json.Unmarshal(body, &requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	userRepository := repository.NewUserRepository(db.Mysqlconnection())
-	userRepository.UpdateUser(&users.User{ID: uint(id), Name: requestData.Name, Email: requestData.Email})
+	userService := services.NewUserServices(nil)
+	updatedUser, err := userService.UpdateUser(&user_entity.User{ID: uint(id), Name: requestData.Name, Email: requestData.Email})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if updatedUser == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Nenhum registro encontrado"})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Atualizado com sucesso"})
 }
@@ -109,8 +115,8 @@ func deleteUser(c *gin.Context) {
 		return
 	}
 
-	userRepository := repository.NewUserRepository(db.Mysqlconnection())
-	rowAffect, err := userRepository.DeleteUser(uint(id))
+	userService := services.NewUserServices(nil)
+	rowAffect, err := userService.DeleteUser(uint(id))
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

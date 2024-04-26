@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	users "user-service/src/models"
+	"user-service/src/adapter/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -29,7 +29,7 @@ func Mysqlconnection() *gorm.DB {
 		panic("failed to connect database")
 	} else {
 		fmt.Printf("Connected to database %s\n", database)
-		err = db.AutoMigrate(&users.User{})
+		err = db.AutoMigrate(&entity.User{})
 	}
 
 	return db
