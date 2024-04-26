@@ -2,7 +2,7 @@ package repository
 
 import (
 	"time"
-	users "user-service/src/models"
+	users "user-service/src/adapter/entity"
 
 	"gorm.io/gorm"
 )
@@ -41,9 +41,16 @@ func (r *UserRepository) GetUserAll() ([]*users.User, error) {
 	return users, err
 }
 
-func (r *UserRepository) UpdateUser(user *users.User) error {
+func (r *UserRepository) UpdateUser(user *users.User) (int64, error) {
 	user.UpdateAt = time.Now()
-	return r.db.Model(user).Updates(user).Error
+	userRow := r.db.First(&user, user.ID)
+	if userRow.RowsAffected != 0 {
+		err := r.db.Model(user).Updates(user).Error
+		if err != nil {
+			return 0, err
+		}
+	}
+	return userRow.RowsAffected, nil
 }
 
 func (r *UserRepository) DeleteUser(id uint) (int64, error) {
