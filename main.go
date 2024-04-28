@@ -5,10 +5,10 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"user-service/src/adapter/dto"
-	"user-service/src/adapter/request/entity"
-	user_entity "user-service/src/core/domain/entity"
-	"user-service/src/core/services"
+	"user-service/adapter/dto"
+	"user-service/adapter/request/entity"
+	user_entity "user-service/core/domain/entity"
+	"user-service/core/services"
 
 	"github.com/gin-gonic/gin"
 )

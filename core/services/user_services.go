@@ -1,10 +1,10 @@
 package services
 
 import (
-	"user-service/src/adapter/db"
-	"user-service/src/adapter/repository"
-	"user-service/src/core/domain/entity"
-	"user-service/src/core/dto"
+	"user-service/adapter/db"
+	"user-service/adapter/repository"
+	"user-service/core/domain/entity"
+	"user-service/core/dto"
 )
 
 type UserServicesInterface interface {

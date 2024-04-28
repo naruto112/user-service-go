@@ -2,8 +2,8 @@ package dto
 
 import (
 	"time"
-	userEntity "user-service/src/adapter/entity"
-	"user-service/src/core/domain/entity"
+	userEntity "user-service/adapter/entity"
+	"user-service/core/domain/entity"
 )
 
 type UserDTO struct {
