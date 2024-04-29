@@ -16,12 +16,17 @@ import (
 func main() {
 	r := gin.Default()
 
+	r.GET("/health-check", Healthcheck)
 	r.POST("/users", createUser)
 	r.GET("/users/:id", getUser)
 	r.GET("/users", getUserAll)
 	r.PUT("/users/:id", updateUser)
 	r.DELETE("/users/:id", deleteUser)
 	r.Run(":8000")
+}
+
+func Healthcheck(c *gin.Context) {
+	c.Data(http.StatusOK, "text/html; charset=utf-8", []byte("<h1>Healthcheck ok!</h1>"))
 }
 
 func createUser(c *gin.Context) {
