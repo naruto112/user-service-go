@@ -2,8 +2,8 @@ package dto
 
 import (
 	"time"
-	"user-service/adapter/request/entity"
-	userEntity "user-service/core/domain/entity"
+	userEntity "user-service/src/adapter/entity"
+	"user-service/src/core/domain/entity"
 )
 
 type UserDTO struct {
@@ -14,12 +14,13 @@ type UserDTO struct {
 	UpdateAt  time.Time
 }
 
-func NewUserDTO(u *entity.UserRequest) *userEntity.User {
+func NewUserDTO(u *entity.User) *userEntity.User {
 	return &userEntity.User{
 		ID:        u.ID,
 		Name:      u.Name,
 		Email:     u.Email,
-		CreatedAt: time.Now(),
-		UpdateAt:  time.Now(),
+		CreatedAt: u.CreatedAt,
+		UpdateAt:  u.UpdateAt,
 	}
+
 }

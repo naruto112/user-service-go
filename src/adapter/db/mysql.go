@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"user-service/adapter/entity"
+	"user-service/src/adapter/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

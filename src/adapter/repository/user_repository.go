@@ -2,7 +2,7 @@ package repository
 
 import (
 	"time"
-	users "user-service/adapter/entity"
+	users "user-service/src/adapter/entity"
 
 	"gorm.io/gorm"
 )
