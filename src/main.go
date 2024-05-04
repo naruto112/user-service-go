@@ -89,7 +89,9 @@ func getUserAll(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, users)
+	userDTO := dto.NewUserDTOResponseList(users)
+
+	c.JSON(http.StatusOK, userDTO)
 }
 
 func updateUser(c *gin.Context) {

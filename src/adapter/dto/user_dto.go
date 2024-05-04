@@ -34,3 +34,17 @@ func NewUserDTOResponse(u *userEntity.User) *response.UserResponse {
 		UpdateAt:  u.UpdateAt,
 	}
 }
+
+func NewUserDTOResponseList(users []*userEntity.User) []response.UserResponse {
+	userResponses := make([]response.UserResponse, len(users))
+	for i, u := range users {
+		userResponses[i] = response.UserResponse{
+			ID:        u.ID,
+			Name:      u.Name,
+			Email:     u.Email,
+			CreatedAt: u.CreatedAt,
+			UpdateAt:  u.UpdateAt,
+		}
+	}
+	return userResponses
+}
