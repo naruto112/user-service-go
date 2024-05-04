@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	host     = os.Getenv("MYSQL_PRIVATE_URL")
+	host     = os.Getenv("MYSQL_URL")
 	database = os.Getenv("MYSQL_DATABASE")
 	user     = os.Getenv("MYSQLUSER")
 	password = os.Getenv("MYSQLPASSWORD")
