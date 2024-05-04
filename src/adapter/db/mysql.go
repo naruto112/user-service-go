@@ -2,17 +2,18 @@ package db
 
 import (
 	"fmt"
+	"os"
 	"user-service/src/adapter/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-const (
-	host     = "localhost"
-	database = "user_service"
-	user     = "root"
-	password = "123"
+var (
+	host     = os.Getenv("MYSQL_PRIVATE_URL")
+	database = os.Getenv("MYSQL_DATABASE")
+	user     = os.Getenv("MYSQLUSER")
+	password = os.Getenv("MYSQLPASSWORD")
 )
 
 func checkError(err error) {
