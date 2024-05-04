@@ -43,7 +43,8 @@ func (r *UserRepository) GetUserAll() ([]*users.User, error) {
 
 func (r *UserRepository) UpdateUser(user *users.User) (int64, error) {
 	user.UpdateAt = time.Now()
-	userRow := r.db.First(&user, user.ID)
+	userCoy := *user
+	userRow := r.db.Find(&userCoy)
 	if userRow.RowsAffected != 0 {
 		err := r.db.Model(user).Updates(user).Error
 		if err != nil {
