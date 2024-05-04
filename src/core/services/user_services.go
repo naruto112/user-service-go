@@ -1,6 +1,7 @@
 package services
 
 import (
+	"user-service/src/adapter/code"
 	"user-service/src/adapter/db"
 	"user-service/src/adapter/repository"
 	"user-service/src/core/domain/entity"
@@ -26,6 +27,8 @@ func NewUserServices(user *entity.User) UserServicesInterface {
 func (s *UserServices) CreateUser(user *entity.User) error {
 	userRepository := repository.NewUserRepository(db.Mysqlconnection())
 	userDTO := dto.NewUserDTO(user)
+	password := code.HashPassword(&userDTO.Password)
+	userDTO.Password = password
 	userRepository.CreateUser(userDTO)
 	return nil
 }

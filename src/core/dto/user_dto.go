@@ -19,6 +19,7 @@ func NewUserDTO(u *entity.User) *userEntity.User {
 		ID:        u.ID,
 		Name:      u.Name,
 		Email:     u.Email,
+		Password:  u.Password,
 		CreatedAt: u.CreatedAt,
 		UpdateAt:  u.UpdateAt,
 	}
