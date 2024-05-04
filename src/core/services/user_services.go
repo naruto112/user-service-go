@@ -72,6 +72,8 @@ func (s *UserServices) GetUserAll() ([]*entity.User, error) {
 func (s *UserServices) UpdateUser(user *entity.User) (int64, error) {
 	userRepository := repository.NewUserRepository(db.Mysqlconnection())
 	userDTO := dto.NewUserDTO(user)
+	password := code.HashPassword(&userDTO.Password)
+	userDTO.Password = password
 	rows, err := userRepository.UpdateUser(userDTO)
 	return rows, err
 }
