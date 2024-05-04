@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"user-service/adapter/dto"
 	"user-service/adapter/request/entity"
@@ -22,7 +23,15 @@ func main() {
 	r.GET("/users", getUserAll)
 	r.PUT("/users/:id", updateUser)
 	r.DELETE("/users/:id", deleteUser)
-	r.Run(":8000")
+
+	port := os.Getenv("PORT")
+	intPort, err := strconv.Atoi(port)
+
+	if err != nil {
+		intPort = 8000
+	}
+
+	r.Run(":" + strconv.Itoa(intPort))
 }
 
 func Healthcheck(c *gin.Context) {
