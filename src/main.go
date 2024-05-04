@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 	"user-service/src/adapter/dto"
-	"user-service/src/adapter/request/entity"
+	"user-service/src/adapter/request"
 	user_entity "user-service/src/core/domain/entity"
 	"user-service/src/core/services"
 
@@ -45,13 +45,13 @@ func createUser(c *gin.Context) {
 		return
 	}
 
-	var requestData entity.UserRequest
+	var requestData request.UserRequest
 	if err := json.Unmarshal(body, &requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	userDTO := dto.NewUserDTO(&requestData)
+	userDTO := dto.NewUserDTORequest(&requestData)
 	userService := services.NewUserServices(userDTO)
 	userService.CreateUser(userDTO)
 
@@ -74,7 +74,9 @@ func getUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	userDTO := dto.NewUserDTOResponse(user)
+
+	c.JSON(http.StatusOK, userDTO)
 }
 
 func getUserAll(c *gin.Context) {
@@ -99,7 +101,7 @@ func updateUser(c *gin.Context) {
 		return
 	}
 
-	var requestData entity.UserRequest
+	var requestData request.UserRequest
 	if err := json.Unmarshal(body, &requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

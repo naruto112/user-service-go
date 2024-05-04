@@ -13,3 +13,11 @@ func HashPassword(password *string) string {
 	}
 	return string(hash)
 }
+
+func DecryptHashPassword(password *string, hash *string) bool {
+	pwd := *password
+	pwdBytes := []byte(pwd)
+	hashBytes := []byte(*hash)
+	err := bcrypt.CompareHashAndPassword(hashBytes, pwdBytes)
+	return err == nil
+}

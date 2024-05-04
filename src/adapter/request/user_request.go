@@ -1,4 +1,4 @@
-package entity
+package request
 
 type UserRequest struct {
 	ID       uint   `json:"id"`
