@@ -14,6 +14,7 @@ var (
 	database = os.Getenv("MYSQL_DATABASE")
 	user     = os.Getenv("MYSQLUSER")
 	password = os.Getenv("MYSQLPASSWORD")
+	port     = os.Getenv("MYSQLPORT")
 )
 
 func checkError(err error) {
@@ -23,7 +24,7 @@ func checkError(err error) {
 }
 
 func Mysqlconnection() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:3307)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, host, database)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, host, port, database)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		checkError(err)
