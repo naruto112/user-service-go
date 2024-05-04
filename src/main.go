@@ -110,7 +110,12 @@ func updateUser(c *gin.Context) {
 	}
 
 	userService := services.NewUserServices(nil)
-	updatedUser, err := userService.UpdateUser(&user_entity.User{ID: uint(id), Name: requestData.Name, Email: requestData.Email})
+	updatedUser, err := userService.UpdateUser(&user_entity.User{
+		ID:       uint(id),
+		Name:     requestData.Name,
+		Email:    requestData.Email,
+		Password: requestData.Password,
+	})
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

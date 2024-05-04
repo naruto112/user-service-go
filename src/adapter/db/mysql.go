@@ -17,6 +17,14 @@ var (
 	port     = os.Getenv("MYSQLPORT")
 )
 
+// var (
+// 	host     = "localhost"
+// 	database = "user_service"
+// 	user     = "root"
+// 	password = "123"
+// 	port     = "3307"
+// )
+
 func checkError(err error) {
 	if err != nil {
 		panic(err)
