@@ -29,7 +29,12 @@ func (r *UserRepository) CreateUser(user *users.User) error {
 	return r.db.Create(user).Error
 }
 
-func (r *UserRepository) GetUser(id uint) (*users.User, error) {
+func (r *UserRepository) GetUser(u *users.User) (*users.User, error) {
+	err := r.db.Where("email = ?", u.Email).Or("name = ?", u.Name).Find(&u).Error
+	return u, err
+}
+
+func (r *UserRepository) GetUserByID(id uint) (*users.User, error) {
 	var user users.User
 	err := r.db.First(&user, id).Error
 	return &user, err

@@ -19,6 +19,7 @@ func main() {
 
 	r.GET("/health-check", Healthcheck)
 	r.POST("/users", createUser)
+	r.POST("/users/login", loginUser)
 	r.GET("/users/:id", getUser)
 	r.GET("/users", getUserAll)
 	r.PUT("/users/:id", updateUser)
@@ -56,6 +57,32 @@ func createUser(c *gin.Context) {
 	userService.CreateUser(userDTO)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Request criado com sucesso"})
+}
+
+func loginUser(c *gin.Context) {
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var requestData request.UserRequest
+	if err := json.Unmarshal(body, &requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userDTO := dto.NewUserDTOLoginRequest(&requestData)
+	userService := services.NewUserServices(userDTO)
+	token, err := userService.LoginUser(userDTO)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, token)
+
 }
 
 func getUser(c *gin.Context) {

@@ -25,6 +25,13 @@ func NewUserDTORequest(u *request.UserRequest) *userEntity.User {
 	}
 }
 
+func NewUserDTOLoginRequest(u *request.UserRequest) *userEntity.User {
+	return &userEntity.User{
+		Email:    u.Email,
+		Password: u.Password,
+	}
+}
+
 func NewUserDTOResponse(u *userEntity.User) *response.UserResponse {
 	return &response.UserResponse{
 		ID:        u.ID,

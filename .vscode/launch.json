@@ -7,7 +7,14 @@
         "request": "launch",
         "mode": "debug",
         "program": "${file}",
-        "env": {},
+        "env": {
+          "MYSQLHOST": "localhost",
+          "MYSQL_DATABASE": "user_service",
+          "MYSQLUSER": "root",
+          "MYSQLPASSWORD": "123",
+          "MYSQLPORT": "3307",
+          "JWT_KEY": "b7496eca16adc4158a020108788de645"
+        },
         "args": []
       }
     ]
