@@ -28,3 +28,15 @@ func GenerateToken(name *string) map[string]interface{} {
 
 	return payloadReturn
 }
+
+func ValidateToken(tokenString *string) bool {
+	token, _ := jwt.Parse(*tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_KEY")), nil
+	})
+
+	if token.Valid {
+		return token.Claims.Valid() == nil
+	}
+
+	return false
+}

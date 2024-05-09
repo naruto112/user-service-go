@@ -18,8 +18,9 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/health-check", Healthcheck)
-	r.POST("/users", createUser)
 	r.POST("/users/login", loginUser)
+	r.Use(request.ValidateTokenMiddleware())
+	r.POST("/users", createUser)
 	r.GET("/users/:id", getUser)
 	r.GET("/users", getUserAll)
 	r.PUT("/users/:id", updateUser)
