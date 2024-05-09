@@ -15,6 +15,26 @@ To get started with the User Service API, follow these steps:
 
 The User Service API provides the following endpoints:
 
+### Healthcheck
+
+- **Endpoint**: `/health-check`
+- **Method**: `GET`
+- **Description**: Check the health of the API.
+- **Response**:
+  - `200 OK`: Returns a success message.
+
+### Login
+
+- **Endpoint**: `/users/login`
+- **Method**: `POST`
+- **Description**: Authenticate a user and generate a token.
+- **Request Body**:
+  - `email` (string): The email of the user.
+  - `password` (string): The password of the user.
+- **Response**:
+  - `200 OK`: Returns a token for authentication.
+  - `400 Bad Request`: If the request is invalid.
+
 ### Get User
 
 - **Endpoint**: `/users/{id}`
@@ -52,8 +72,8 @@ The User Service API provides the following endpoints:
 - **Method**: `PUT`
 - **Description**: Update a user by ID.
 - **Request Body**:
-  - `name` (string): The name of the user.
-  - `email` (string): The email of the user.
+  - `name` (string): The updated name of the user.
+  - `email` (string): The updated email of the user.
 - **Response**:
   - `200 OK`: Returns a success message.
   - `400 Bad Request`: If the request is invalid.
@@ -69,6 +89,14 @@ The User Service API provides the following endpoints:
   - `400 Bad Request`: If the request is invalid.
   - `404 Not Found`: If the user is not found.
 
-## Healthcheck
+## License
 
-- **Endpoint**: `/healthcheck`
+This project is licensed under the [MIT License](LICENSE).
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
+## Contact
+
+For any inquiries or questions, please contact [renatorock3@hotmail.com](mailto:renatorock3@hotmail.com).
